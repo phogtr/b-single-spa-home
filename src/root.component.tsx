@@ -1,4 +1,17 @@
+import { Chart } from "./components/Chart";
+
 export default function Root() {
+  const data = {
+    labels: ["Red", "Green", "Orange"],
+    datasets: [
+      {
+        label: "# of something",
+        data: [300, 50, 100],
+        backgroundColor: ["Red", "Green", "Orange"],
+      },
+    ],
+  };
+
   return (
     <section>
       <h1>Home</h1>
@@ -14,6 +27,7 @@ export default function Root() {
           create-single-spa <i>name-of-the-app</i> --framework react
         </li>
       </ul>
+      <Chart data={data} />
     </section>
   );
 }
