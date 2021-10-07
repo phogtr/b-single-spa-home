@@ -2,7 +2,7 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
 //@ts-ignorets-ignore
-import { helloWorldFc, publicApiFunction } from "@react-mf/utils";
+import { useLocalStorage, clearLocalStorage } from "@react-mf/utils";
 
 interface IChartProps {
   data: {
@@ -16,14 +16,35 @@ interface IChartProps {
 }
 
 export const Chart: React.FC<IChartProps> = ({ data }) => {
-  const a = publicApiFunction();
-  const b = helloWorldFc();
-  // console.log(b);
+  const { localStorageData, setLocalStorageData } = useLocalStorage();
+  const [localStore, setLocalStore] = React.useState(localStorageData);
+
+  // React.useEffect(() => {
+  //   console.log(localStorageData);
+  //   console.log(localStore);
+  // }, [localStore]);
+
+  const handleOnClick = () => {
+    setLocalStorageData({
+      name: "test",
+      id: "1",
+      note: "hello world",
+    });
+    setLocalStore({
+      name: "test",
+      id: "1",
+      note: "hello world",
+    });
+  };
+
+  const handleClearLocalStorage = () => {
+    clearLocalStorage();
+    setLocalStore({});
+  };
 
   return (
     <div>
       <h1>Chart</h1>
-      {a}
       <div>
         <Doughnut
           data={data as any}
@@ -35,12 +56,14 @@ export const Chart: React.FC<IChartProps> = ({ data }) => {
               doughnut: {
                 circumference: 180,
                 rotation: 270,
-                spacing: 10,
+                offset: 10,
               },
             },
           }}
         />
       </div>
+      <button onClick={handleOnClick}>Update Local Storage</button>
+      <button onClick={handleClearLocalStorage}>Clear Local Storage</button>
     </div>
   );
 };
